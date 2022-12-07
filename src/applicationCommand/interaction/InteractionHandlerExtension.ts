@@ -15,16 +15,16 @@ export class InteractionHandlerExtension extends CTSExtension {
   @listener({
     event: Events.InteractionCreate,
   })
-  async interaction(interaction: Interaction) {
-    if (interaction.isButton()) {
+  async interaction(ix: Interaction) {
+    if (ix.isButton()) {
       for (const itx of this.commandClient.registry.extensions) {
         const interactions = this.commandClient.registry.getComponentsWithType<InteractionComponent>(itx, InteractionComponent)
-        for (const i of interactions) if (i.option.receiveType == 'Button' && i.option.customId == interaction.customId) i.method(interaction)
+        for (const i of interactions) if (i.option.receiveType == 'Button' && i.option.customId == ix.customId) i.method(ix)
       }
-    } else if (interaction.isSelectMenu()) {
+    } else if (ix.isStringSelectMenu()) {
       for (const itx of this.commandClient.registry.extensions) {
         const interactions = this.commandClient.registry.getComponentsWithType<InteractionComponent>(itx, InteractionComponent)
-        for (const i of interactions) if (i.option.receiveType == 'SelectMenu' && i.option.customId == interaction.customId) i.method(interaction)
+        for (const i of interactions) if (i.option.receiveType == 'SelectMenu' && i.option.customId == ix.customId) i.method(ix)
       }
     }
   }
